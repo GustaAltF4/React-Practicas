@@ -1,0 +1,52 @@
+
+.custom1{
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    background: none;
+    text-decoration: none;
+    z-index: 1;
+    transition: color 0.5s ease-in-out;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+}
+
+/* .custom1:hover{
+    text-decoration: none;
+    color: rgb(192, 17, 113);
+    background-color: rgb(255, 255, 255);
+} */
+
+.custom1::before {
+content: "";
+position: absolute;
+top: 0;
+left: -50%;
+width: 200%;
+height: 100%;
+background: linear-gradient(270deg, rgba(255, 255, 255, 0.0), rgba(211, 14, 162, 0.487), rgba(255, 255, 255, 0.0));
+z-index: -1;
+transition: transform 0.5s ease;
+animation: move-background 7s infinite linear;
+}
+
+@keyframes move-background {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+
+
+.custom1:hover::before {
+transform: translateX(0);
+}
+/* w-full cursor-pointer hover:no-underline hover:text-pink-700  hover:bg-secondary px-4 */
+.md{
+    display: inline;
+  vertical-align: middle;
+}

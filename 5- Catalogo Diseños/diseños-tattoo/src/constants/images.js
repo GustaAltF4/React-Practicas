@@ -1,0 +1,33 @@
+export const imagesTattoo= [
+  "tattoo (1).webp",
+  "tattoo (2).webp",
+  "tattoo (3).webp",
+  "tattoo (4).webp",
+  "tattoo (5).webp",
+  "tattoo (6).webp",
+  "tattoo (7).webp",
+  "tattoo (8).webp",
+  "tattoo (9).webp",
+  "tattoo (10).webp",
+  "tattoo (11).webp",
+  "tattoo (12).webp",
+  "tattoo (13).webp",
+  "tattoo (14).webp",
+  "tattoo (15).webp",
+  "tattoo (16).webp",
+  "tattoo (17).webp",
+  "tattoo (18).webp",
+  "tattoo (19).webp",
+  "tattoo (20).webp",
+  "tattoo (21).webp",
+  "tattoo (22).webp",
+  "tattoo (23).webp",
+  "tattoo (24).webp",
+  "tattoo (25).webp",
+  "tattoo (26).webp",
+  "tattoo (27).webp",
+  "tattoo (28).webp",
+  "tattoo (29).webp"
+
+
+]

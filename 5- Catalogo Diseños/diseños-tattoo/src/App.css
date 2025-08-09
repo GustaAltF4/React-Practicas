@@ -1,0 +1,176 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.imagenTattoo{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  
+}
+.imgBtnContenedor{
+  position: relative;
+  display: inline-block;
+}
+.imagenTattoo img{
+  width: 20rem;
+  height: 25rem;
+  cursor: pointer;
+  z-index: 0;
+  position: relative;
+}
+
+.btnDD {
+  all: unset; /* Elimina todos los estilos heredados */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  padding: 4px;
+  z-index: 10;
+  cursor: pointer;
+  height: 2rem;
+  width: 2rem;
+  transition: ease 0.2s;
+}
+
+.btnDD:hover {
+  background-color: rgba(135, 23, 120, 0.8);
+}
+
+.tatuadores{
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 3rem;
+}
+
+.btnT {
+  all: unset; /* Elimina todos los estilos heredados */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: #bc0a96 solid 1px;
+  border-radius: 20px;
+  padding: 1rem;
+  cursor: pointer;
+  color: #bc0a96;
+  
+  
+}
+
+.btnT:hover {
+  background-color:  rgba(69, 8, 61, 0.8);
+  border: none;
+}
+
+.tatuadores-contenedor {
+  /* display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+  pointer-events: none;
+  height: auto; */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: max-height 0.7s ease, opacity 0.6s ease, transform 0.6s ease;
+  margin-top: 1rem;
+}
+
+
+@media (max-width: 768px) {
+  .btnT{
+      margin-top: 0; 
+      
+    
+  }
+  .tatuadores{
+    top: -2rem;
+  }
+  h1{
+
+    margin-top: 5rem;
+  }
+  
+}
+
+
+.tatuadores-contenedor.show {
+  /* opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto; */
+   max-height: 50rem; /* ajustá según contenido real */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.info-contenedor {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: max-height 0.6s ease, opacity 0.5s ease, transform 0.5s ease;
+}
+
+.info-contenedor.show {
+  max-height: 50rem; /* ajustá según contenido real */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.btnInfo {
+
+  all: unset; /* Elimina todos los estilos heredados */
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  padding: 4px;
+  z-index: 100;
+  cursor: pointer;
+  height: 2rem;
+  width: 2rem;
+  transition: ease 0.2s;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;  
+  
+}
+
+.btnInfo:hover {
+  background-color: rgba(135, 23, 120, 0.8);
+}
+
+.carrusel-img {
+  width: 100%;
+  max-width: 400px;
+  height: 400px;
+  max-height: 400px;
+  
+  margin: 0 auto;
+  object-fit: cover;  /* Si querés recortar la imagen para que se adapte mejor */
+}
+
