@@ -2,7 +2,7 @@
 
 Simplemente una web con archivos estaticos que hice para mi pareja a modo de Catalogo de los productos que ofrece...
 
-deploy en netlify: 
+**🔽Deploy en netlify:** 
 
 [Catalogo-nitch](https://new-catalogo-nitch.netlify.app/)
 
