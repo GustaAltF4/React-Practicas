@@ -24,7 +24,7 @@ export default function InputJson() {
     }
 
     try {
-      const response = await fetch(`https://api-weapon-v2.onrender.com/${inputC}`, {
+      const response = await fetch(`https://microserv-v2-gateway.onrender.com/${inputC}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -48,18 +48,18 @@ export default function InputJson() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 bg-transparent rounded-xl shadow-md p-6 border-5 w-full max-w-3xl"
+      className="space-y-4 bg-transparent rounded-xl shadow-md p-6 border-5 w-full max-w-3xl mt-6"
     >
-      <h1 className="text-base font-semibold">
-        Try GET Endpoint:
+      <h1 className=" font-semibold">
+        Test GET Endpoint:
         <span className="ml-2 font-mono text-sm text-muted-foreground">
-          https://api-weapon-v2.onrender.com/{inputC}
+          https://microserv-v2-gateway.onrender.com/{inputC}
         </span>
       </h1>
 
       <Input
         type="text"
-        placeholder="example: weapons or weapons/id/7"
+        placeholder="example: 'user', 'product', 'users/details' , or 'users/id/1'"
         value={inputC}
         onChange={(e) => setInputC(e.target.value)}
       />
@@ -75,42 +75,46 @@ export default function InputJson() {
         )}
       </Button>
 
-      <p className="text-sm text-muted-foreground mb-4">Test any GET request.</p>
+      <p className="text-sm  mb-4">Test any GET request.</p>
 
       {/* Status */}
       <div className="text-sm">
         Status:{" "}
         <span
-          className={`ml-1 font-semibold ${
-            loading
-              ? "text-gray-500"
-              : success
-              ? "text-green-600"
+          className={`ml-1 font-semibold ${loading
+            ? "text-gray-500"
+            : success
+              ? "text-teal-600"
               : error
-              ? "text-red-600"
-              : "text-gray-400"
-          }`}
+                ? "text-red-600"
+                : "text-gray-400"
+            }`}
         >
           {loading
             ? "Loading..."
             : success
-            ? "200 OK"
-            : error
-            ? "Error"
-            : "—"}
+              ? "200 OK"
+              : error
+                ? "Error"
+                : "—"}
         </span>
       </div>
 
       {/* Mostrar JSON si hay éxito */}
       {success && data && (
-        <pre className="bg-black text-green-300 p-4 rounded-lg whitespace-pre-wrap break-words text-xs overflow-x-auto">
-          {JSON.stringify(data, null, 2)}
-        </pre>
+        <div className="w-full max-w-3xl mx-auto bg-black rounded-lg">
+          <div className="flex flex-col items-center ">
+            <pre className=" text-teal-500 p-4  break-words text-xs text-left">
+              {JSON.stringify(data, null, 2)}
+            </pre>
+          </div>
+
+        </div>
       )}
 
       {/* Mostrar error */}
       {error && (
-        <div className="text-red-400 bg-red-900/20 p-3 rounded-lg text-xs">
+        <div className="text-red-400 bg-red-900/20 p-3 rounded-lg text-xs ">
           {error}
         </div>
       )}
