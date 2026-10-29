@@ -14,7 +14,7 @@ import { getCategorias, getProductos } from "@/lib/api"
 import { galeria } from "@/components/constants/galeria"
 import type { Categoria, Producto } from "@/types/database"
 import { Link } from "react-router-dom"
-import { ArrowUpRight, Sparkles } from "lucide-react"
+import { ArrowUpRight, Sparkles, CircleHelp } from "lucide-react"
 import { normalizarImagenUrl } from "@/lib/utils"
 
 const CATEGORIAS_FALLBACK: Categoria[] = [
@@ -81,21 +81,23 @@ export function HomePage() {
 
       <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-black transition-colors duration-300">
         <main className="relative w-full">
-          {/* HEADER STICKY GLASSMORPHIC */}
-          <header className="sticky top-0 w-full z-40 px-4 md:px-8 py-3 flex items-center justify-between bg-white/75 dark:bg-black/80 backdrop-blur-xl border-b border-zinc-200/60 dark:border-white/10 transition-colors shadow-sm">
+          {/* HEADER STICKY GLASSMORPHIC CON BOTONES TÁCTILES CÓMODOS */}
+          <header className="sticky top-0 w-full z-40 px-4 md:px-8 py-3 flex items-center justify-between bg-white/80 dark:bg-black/85 backdrop-blur-xl border-b border-zinc-200/60 dark:border-white/10 transition-colors shadow-sm">
             <div className="flex items-center gap-2">
-              <SidebarTrigger className="h-9 w-9 bg-zinc-100 dark:bg-white/10 hover:bg-zinc-200 dark:hover:bg-white/20 border border-zinc-300 dark:border-white/20 shadow-sm rounded-xl transition-all active:scale-90 text-zinc-900 dark:text-white" />
+              <SidebarTrigger className="h-11 w-11 min-w-[44px] min-h-[44px] bg-zinc-100 dark:bg-white/10 hover:bg-zinc-200 dark:hover:bg-white/20 border border-zinc-300 dark:border-white/20 shadow-sm rounded-xl transition-all active:scale-95 text-zinc-900 dark:text-white flex items-center justify-center" />
             </div>
             <h1 className="text-sm sm:text-base md:text-2xl font-black tracking-widest bg-gradient-to-r from-fuchsia-600 via-zinc-900 to-zinc-900 dark:via-white dark:to-white bg-clip-text text-transparent uppercase text-center flex-1 truncate px-2">
               CATALOGO ARNESES
             </h1>
             <div className="flex items-center gap-2">
-              <ModeToggle />
+              <div className="scale-110">
+                <ModeToggle />
+              </div>
             </div>
           </header>
 
-          {/* HERO + BIENVENIDA */}
-          <section className="relative w-full h-[50vh] md:h-[70vh] flex flex-col items-center justify-center overflow-hidden pt-10">
+          {/* HERO + BIENVENIDA ORIGINAL COMPLETO */}
+          <section className="relative w-full min-h-[55vh] md:min-h-[70vh] flex flex-col items-center justify-center overflow-hidden py-10">
             <div className="absolute inset-0">
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white dark:to-black z-10" />
               <img
@@ -121,34 +123,55 @@ export function HomePage() {
                 </h2>
               </motion.div>
 
+              {/* CARTEL DE BIENVENIDO COMPLETO RESTAURADO */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="w-full max-w-2xl border border-white/20 dark:border-white/10 rounded-[0.5rem] p-4 md:p-6 bg-white/30 dark:bg-black/20 backdrop-blur-xl shadow-2xl text-center"
+                className="w-full max-w-2xl border-2 border-fuchsia-600/70 dark:border-fuchsia-500/50 rounded-2xl p-5 md:p-6 bg-white/80 dark:bg-black/60 backdrop-blur-xl shadow-2xl text-center"
               >
-                <p className="text-xs md:text-base text-zinc-900 dark:text-zinc-200 font-bold uppercase tracking-widest mb-1">
-                  🎊 ¡Bienvenido! 🎊
+                <h3 className="text-base md:text-lg font-black text-fuchsia-600 dark:text-fuchsia-400 uppercase tracking-wider mb-2">
+                  🎊¡Bienvenido!🎊
+                </h3>
+                <p className="text-xs md:text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                  Estos son los productos que tenemos para ti. Todos los arneses son hechos a mano, por lo que es necesario que todos los encargos se realicen con anticipación.
                 </p>
-                <p className="text-[10px] md:text-sm mb-4 opacity-90 text-zinc-800 dark:text-zinc-300">
-                  Arneses hechos a mano. Pedí con anticipación.
+                <p className="text-[11px] md:text-xs text-zinc-500 dark:text-zinc-400 mt-1 italic">
+                  (puede que las imágenes tarden en cargar al ser muchas)
                 </p>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="rounded-full border-fuchsia-700/50 text-fuchsia-700 dark:text-fuchsia-400 bg-transparent h-8 text-[10px] md:text-xs"
+                <p className="text-xs md:text-sm font-bold text-zinc-800 dark:text-zinc-200 mt-2">
+                  ¡Muchas gracias! 😊
+                </p>
+
+                <div className="mt-4 flex justify-center">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="secondary"
+                        className="h-11 px-5 rounded-xl cursor-pointer font-bold text-xs uppercase tracking-wider gap-2 border border-zinc-300 dark:border-zinc-700 active:scale-95 shadow-sm"
+                      >
+                        <span>¿Cómo comprar?</span>
+                        <CircleHelp className="w-4 h-4 text-fuchsia-600" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      side="bottom"
+                      className="max-w-xs md:max-w-sm rounded-2xl p-4 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-zinc-200 dark:border-zinc-800 shadow-2xl text-xs space-y-2.5 leading-relaxed text-zinc-800 dark:text-zinc-200"
                     >
-                      ¿Cómo comprar?
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="rounded-xl bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md">
-                    <p className="text-xs font-medium text-center">
-                      Elegí tu categoría, seleccioná los diseños que te gusten y tocá
-                      Comprar. ✨
-                    </p>
-                  </PopoverContent>
-                </Popover>
+                      <p className="flex items-start gap-2">
+                        <span className="font-bold text-fuchsia-600">👉</span>
+                        <span>
+                          Activá la casilla de selección en la esquina del arnés para sumarlo a tu pedido.
+                        </span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="font-bold text-fuchsia-600">👉</span>
+                        <span>
+                          Luego tocá el botón flotante <strong>Carrito</strong> abajo a la derecha para ver tu lista y contactarme por WhatsApp 💌.
+                        </span>
+                      </p>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </motion.div>
             </div>
           </section>

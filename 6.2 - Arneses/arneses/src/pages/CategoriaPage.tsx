@@ -127,60 +127,64 @@ export function CategoriaPage() {
           transition={{ duration: 0.25, ease: "easeInOut" }}
           className="min-h-screen text-zinc-900 dark:text-zinc-100 pb-32"
         >
-          {/* HEADER STICKY CON CONTROLES ACCESIBLES */}
-          <header className="sticky top-0 z-40 bg-white/80 dark:bg-black/85 backdrop-blur-xl border-b border-zinc-200/60 dark:border-white/10 px-4 md:px-8 py-2.5 flex items-center justify-between gap-2 shadow-sm">
-            <div className="flex items-center gap-2">
-              <SidebarTrigger className="h-9 w-9 bg-zinc-100 dark:bg-white/10 hover:bg-zinc-200 dark:hover:bg-white/20 border border-zinc-300 dark:border-white/20 shadow-sm rounded-xl transition-all active:scale-90 text-zinc-900 dark:text-white" />
+          {/* HEADER STICKY CON CONTROLES TÁCTILES AMPLIOS Y SEPARADOS */}
+          <header className="sticky top-0 z-40 bg-white/85 dark:bg-black/90 backdrop-blur-xl border-b border-zinc-200/60 dark:border-white/10 px-3 sm:px-6 py-2.5 flex items-center justify-between gap-2 shadow-sm">
+            {/* LADO IZQUIERDO: ÚNICAMENTE EL BOTÓN DE VOLVER (DESPEJADO PARA EL PULGAR) */}
+            <div>
               <button
                 onClick={() => navigate("/")}
-                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors p-1.5 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900"
+                className="h-11 px-3 min-w-[44px] min-h-[44px] flex items-center gap-2 rounded-xl text-xs font-black uppercase tracking-wider text-zinc-700 dark:text-zinc-300 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 bg-zinc-100/80 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition-all active:scale-95 shadow-sm"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span className="hidden sm:inline">Colecciones</span>
               </button>
             </div>
 
-        {/* SELECTOR DROPDOWN ELEGANTE PARA CAMBIAR DE COLECCIÓN */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-900/90 hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-fuchsia-500/20 text-zinc-900 dark:text-white transition-all shadow-sm active:scale-95">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-fuchsia-600 dark:text-fuchsia-400">
-                Colección:
-              </span>
-              <span className="text-xs md:text-sm font-black uppercase tracking-tight truncate max-w-[140px] sm:max-w-[200px]">
-                {categoriaActual?.nombre || slug}
-              </span>
-              <ChevronDown className="w-3.5 h-3.5 text-zinc-400" />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="center"
-            className="w-56 p-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl"
-          >
-            {categorias.map((c) => {
-              const esActiva = c.slug === slug
-              return (
-                <DropdownMenuItem
-                  key={c.slug}
-                  onClick={() => navigate(`/categoria/${c.slug}`)}
-                  className={`flex items-center justify-between px-3 py-2 text-xs font-bold uppercase tracking-wide rounded-xl cursor-pointer ${
-                    esActiva
-                      ? "bg-fuchsia-600 text-white font-black"
-                      : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900"
-                  }`}
-                >
-                  <span className="truncate">{c.nombre}</span>
-                  {esActiva && <Check className="w-4 h-4" />}
-                </DropdownMenuItem>
-              )
-            })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+            {/* CENTRO: SELECTOR DROPDOWN DE COLECCIÓN AGRANDADO */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="h-11 min-h-[44px] flex items-center gap-2 px-4 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-fuchsia-500/20 text-zinc-900 dark:text-white transition-all shadow-sm active:scale-95">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-fuchsia-600 dark:text-fuchsia-400 hidden xs:inline">
+                    Colección:
+                  </span>
+                  <span className="text-xs sm:text-sm font-black uppercase tracking-tight truncate max-w-[130px] sm:max-w-[200px]">
+                    {categoriaActual?.nombre || slug}
+                  </span>
+                  <ChevronDown className="w-4 h-4 text-zinc-400" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="center"
+                className="w-60 p-2 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl"
+              >
+                {categorias.map((c) => {
+                  const esActiva = c.slug === slug
+                  return (
+                    <DropdownMenuItem
+                      key={c.slug}
+                      onClick={() => navigate(`/categoria/${c.slug}`)}
+                      className={`flex items-center justify-between px-3.5 py-2.5 text-xs font-bold uppercase tracking-wide rounded-xl cursor-pointer ${
+                        esActiva
+                          ? "bg-fuchsia-600 text-white font-black"
+                          : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+                      }`}
+                    >
+                      <span className="truncate">{c.nombre}</span>
+                      {esActiva && <Check className="w-4 h-4" />}
+                    </DropdownMenuItem>
+                  )
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-        <div className="flex items-center gap-2">
-          <ModeToggle />
-        </div>
-      </header>
+            {/* LADO DERECHO: CONTROLES SECUNDARIOS SEPARADOS (SIDEBAR + TEMA) */}
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <SidebarTrigger className="h-11 w-11 min-w-[44px] min-h-[44px] bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 shadow-sm rounded-xl transition-all active:scale-95 text-zinc-900 dark:text-white flex items-center justify-center" />
+              <div className="scale-105">
+                <ModeToggle />
+              </div>
+            </div>
+          </header>
 
           {/* BANNER LIMPIO SIN GRADIENTES OSCUROS */}
           <div className="max-w-7xl mx-auto px-4 md:px-8 pt-4">

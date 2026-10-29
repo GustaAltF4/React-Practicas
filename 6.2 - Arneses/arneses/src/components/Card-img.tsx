@@ -66,13 +66,18 @@ export const CardIMG = memo(function CardIMG({
         #{id}
       </div>
 
-      {/* Checkbox táctil */}
-      <div className="absolute top-2 right-2 z-20 p-1">
+      {/* Checkbox táctil con área de toque ampliada para celular (48x48px) */}
+      <div
+        className="absolute top-0 right-0 z-20 min-w-[48px] min-h-[48px] p-2.5 flex items-start justify-end cursor-pointer touch-manipulation"
+        onClick={(e) => {
+          e.stopPropagation()
+          onToggleSeleccion(!checked)
+        }}
+      >
         <Checkbox
           checked={checked}
-          onCheckedChange={(val) => onToggleSeleccion(!!val)}
           className={`
-            h-7 w-7 rounded-full border-2 transition-transform duration-200 active:scale-75 shadow-md
+            h-7 w-7 rounded-full border-2 transition-transform duration-200 active:scale-75 shadow-md pointer-events-none
             ${
               checked
                 ? "bg-fuchsia-600 border-fuchsia-600 ring-2 ring-white/50 dark:ring-black/50"
