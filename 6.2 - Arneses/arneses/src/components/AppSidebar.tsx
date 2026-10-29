@@ -19,7 +19,7 @@ import {
 import { 
   VenusAndMars, Share2, Search, MessageCircleQuestionMark, 
   Instagram, Facebook, Brush, Blocks, Github, Mail, Shield,
-  Layers, Check
+  Layers, Check, ChevronUp
 } from "lucide-react"
 import {
   Accordion,
@@ -273,41 +273,60 @@ export function AppSidebar() {
       </SidebarContent>
 
       {/* BLOQUE FINAL */}
-      <div>
-        <img
-          src={normalizarImagenUrl("/img/icons/rosa2.webp")}
-          alt="rosa white"
-          className="dark:hidden"
-        />
-        <img
-          src={normalizarImagenUrl("/img/icons/rosa1.webp")}
-          alt="rosa dark"
-          className="hidden dark:block"
-        />
+      <div className="p-3 border-t border-zinc-200/50 dark:border-white/5 space-y-3">
+        <div className="flex justify-center opacity-80 dark:opacity-60 transition-opacity hover:opacity-100">
+          <img
+            src={normalizarImagenUrl("/img/icons/rosa2.webp")}
+            alt="rosa white"
+            className="w-16 h-auto dark:hidden"
+          />
+          <img
+            src={normalizarImagenUrl("/img/icons/rosa1.webp")}
+            alt="rosa dark"
+            className="w-16 h-auto hidden dark:block"
+          />
+        </div>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton className="mb-3 gap-2 text-primary opacity-40">
-              <Blocks className="ml-2 mr-2 " />
-              <span>Desarrollado por...</span>
-            </SidebarMenuButton>
+            <button className="w-full h-11 px-3.5 rounded-xl flex items-center justify-between text-xs font-bold tracking-wide transition-all duration-300 bg-zinc-100/90 dark:bg-zinc-900/90 hover:bg-zinc-200/90 dark:hover:bg-zinc-800/90 border border-zinc-200 dark:border-white/10 text-zinc-600 dark:text-zinc-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 shadow-sm active:scale-95 group cursor-pointer">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="h-7 w-7 rounded-lg bg-fuchsia-500/10 text-fuchsia-600 flex items-center justify-center group-hover:scale-110 group-hover:bg-fuchsia-600 group-hover:text-white transition-all">
+                  <Blocks className="h-4 w-4" />
+                </div>
+                <span className="truncate">Desarrollado por...</span>
+              </div>
+              <ChevronUp className="w-4 h-4 text-zinc-400 group-hover:text-fuchsia-600 group-hover:-translate-y-0.5 transition-all shrink-0" />
+            </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent side="top" className="rounded-[0.5rem]">
-            <DropdownMenuItem>
-              <Mail className="mr-2 h-4 w-4" />
-              <a href="mailto:acostag.123456@gmail.com">Correo</a>
+          <DropdownMenuContent side="top" align="center" className="w-56 p-2 rounded-2xl bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl border border-zinc-200 dark:border-zinc-800 shadow-2xl space-y-1">
+            <div className="px-3 py-2 border-b border-zinc-100 dark:border-white/5 mb-1">
+              <p className="text-[10px] font-black uppercase tracking-widest text-fuchsia-600">Gustavo Acosta</p>
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">Software Developer</p>
+            </div>
+            <DropdownMenuItem asChild className="h-10 px-3 rounded-xl cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">
+              <a href="mailto:acostag.123456@gmail.com" className="flex items-center gap-2.5 w-full text-xs font-bold text-zinc-700 dark:text-zinc-300">
+                <div className="h-7 w-7 rounded-lg bg-fuchsia-500/10 text-fuchsia-600 flex items-center justify-center shrink-0">
+                  <Mail className="h-3.5 w-3.5" />
+                </div>
+                <span>Correo</span>
+              </a>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Github className="mr-2 h-4 w-4" />
-              <a href="https://github.com/GustaAltF4" target="_blank" rel="noreferrer">
-                Git Hub
+            <DropdownMenuItem asChild className="h-10 px-3 rounded-xl cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">
+              <a href="https://github.com/GustaAltF4" target="_blank" rel="noreferrer" className="flex items-center gap-2.5 w-full text-xs font-bold text-zinc-700 dark:text-zinc-300">
+                <div className="h-7 w-7 rounded-lg bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 flex items-center justify-center shrink-0">
+                  <Github className="h-3.5 w-3.5" />
+                </div>
+                <span>Git Hub</span>
               </a>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => navigate("/admin")}
-              className="text-zinc-500 hover:text-fuchsia-400"
+              className="h-10 px-3 rounded-xl cursor-pointer text-xs font-bold text-zinc-500 hover:text-fuchsia-500 hover:bg-fuchsia-500/10 dark:hover:bg-fuchsia-500/10 transition-colors flex items-center gap-2.5"
             >
-              <Shield className="mr-2 h-4 w-4" />
+              <div className="h-7 w-7 rounded-lg bg-zinc-100 dark:bg-zinc-900 text-zinc-500 flex items-center justify-center shrink-0">
+                <Shield className="h-3.5 w-3.5" />
+              </div>
               <span>Admin</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
