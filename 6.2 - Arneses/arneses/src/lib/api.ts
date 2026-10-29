@@ -53,19 +53,22 @@ export async function getCategorias(incluirInactivas: boolean = false): Promise<
 
 export async function saveCategoria(categoria: Partial<Categoria>): Promise<Categoria | null> {
   if (categoria.id) {
+    const { id, ...dataToUpdate } = categoria
     const { data, error } = await supabase
       .from('arneses_categorias')
-      .update(categoria)
-      .eq('id', categoria.id)
+      .update(dataToUpdate)
+      .eq('id', id)
       .select()
       .single()
 
     if (error) throw error
     return data
   } else {
+    // Excluimos explícitamente el campo 'id' para que PostgreSQL genere el autoincremental
+    const { id, ...dataToInsert } = categoria
     const { data, error } = await supabase
       .from('arneses_categorias')
-      .insert([categoria])
+      .insert([dataToInsert])
       .select()
       .single()
 
@@ -120,19 +123,22 @@ export async function getProductosAdmin(): Promise<Producto[]> {
 
 export async function saveProducto(producto: Partial<Producto>): Promise<Producto | null> {
   if (producto.id) {
+    const { id, ...dataToUpdate } = producto
     const { data, error } = await supabase
       .from('arneses_productos')
-      .update(producto)
-      .eq('id', producto.id)
+      .update(dataToUpdate)
+      .eq('id', id)
       .select()
       .single()
 
     if (error) throw error
     return data
   } else {
+    // Excluimos explícitamente el campo 'id' para que la base genere el próximo autoincrement
+    const { id, ...dataToInsert } = producto
     const { data, error } = await supabase
       .from('arneses_productos')
-      .insert([producto])
+      .insert([dataToInsert])
       .select()
       .single()
 
