@@ -2,6 +2,7 @@ import { memo, useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { motion } from "framer-motion"
 import { normalizarImagenUrl } from "@/lib/utils"
+import { Sparkles } from "lucide-react"
 
 interface ImageCardProps {
   id: number
@@ -9,6 +10,7 @@ interface ImageCardProps {
   onClick?: () => void
   checked?: boolean
   onToggleSeleccion: (checked: boolean) => void
+  priority?: boolean
 }
 
 export const CardIMG = memo(function CardIMG({
@@ -17,8 +19,10 @@ export const CardIMG = memo(function CardIMG({
   onClick,
   checked,
   onToggleSeleccion,
+  priority = false,
 }: ImageCardProps) {
   const [cargada, setCargada] = useState(false)
+  const urlFinal = normalizarImagenUrl(imagen)
 
   return (
     <motion.div
@@ -26,35 +30,44 @@ export const CardIMG = memo(function CardIMG({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.25 }}
       className={`
-        relative aspect-[2/3] w-full overflow-hidden rounded-xl
+        relative aspect-[2/3] w-full overflow-hidden rounded-2xl
         border transition-all duration-300
         ${
           checked
-            ? "border-fuchsia-600 shadow-md shadow-fuchsia-600/20 ring-1 ring-fuchsia-500/50"
-            : "border-zinc-200/80 dark:border-white/10 hover:border-fuchsia-500/40"
+            ? "border-fuchsia-600 shadow-lg shadow-fuchsia-600/25 ring-2 ring-fuchsia-500/60"
+            : "border-zinc-200 dark:border-white/10 hover:border-fuchsia-500/40"
         }
-        bg-zinc-100 dark:bg-zinc-900
+        bg-zinc-100 dark:bg-zinc-950
         content-visibility-auto
         will-change-transform
         active:scale-[0.98]
       `}
     >
-      {/* Skeleton / Shimmer mientras descarga la foto */}
+      {/* SKELETON SHIMMER PRO CON HAZ DE LUZ FUCHSIA */}
       {!cargada && (
-        <div className="absolute inset-0 bg-gradient-to-r from-zinc-200 via-zinc-100 to-zinc-200 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 animate-pulse flex items-center justify-center">
-          <span className="text-[10px] font-black text-fuchsia-600/40 uppercase tracking-widest">
-            #{id}
-          </span>
+        <div className="absolute inset-0 bg-zinc-200/90 dark:bg-zinc-900 overflow-hidden flex flex-col items-center justify-center">
+          {/* Haz de luz animado */}
+          <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 dark:via-fuchsia-500/15 to-transparent animate-skeleton-shimmer" />
+
+          {/* Icono central de carga con pulso */}
+          <div className="relative z-10 flex flex-col items-center gap-1.5 opacity-40">
+            <div className="h-7 w-7 rounded-lg bg-fuchsia-600/20 text-fuchsia-600 flex items-center justify-center">
+              <Sparkles className="w-3.5 h-3.5 animate-spin" />
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-zinc-600 dark:text-zinc-400">
+              #{id}
+            </span>
+          </div>
         </div>
       )}
 
-      {/* Badge de Modelo - Ahora visible en Mobile de forma glass minimalista */}
-      <div className="absolute top-2 left-2 z-10 text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-black/60 dark:bg-black/70 backdrop-blur-md text-white border border-white/10 shadow-sm pointer-events-none">
+      {/* Badge de Modelo */}
+      <div className="absolute top-2.5 left-2.5 z-10 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-black/60 dark:bg-black/75 backdrop-blur-md text-white border border-white/10 shadow-sm pointer-events-none">
         #{id}
       </div>
 
-      {/* Checkbox táctil agrandado para dedos en mobile */}
-      <div className="absolute top-1.5 right-1.5 z-20 p-1">
+      {/* Checkbox táctil */}
+      <div className="absolute top-2 right-2 z-20 p-1">
         <Checkbox
           checked={checked}
           onCheckedChange={(val) => onToggleSeleccion(!!val)}
@@ -75,22 +88,27 @@ export const CardIMG = memo(function CardIMG({
         onClick={onClick}
       >
         <img
-          src={normalizarImagenUrl(imagen)}
+          src={urlFinal}
           alt={`Arnés Modelo ${id}`}
-          loading="lazy"
-          decoding="async"
+          loading={priority ? "eager" : "lazy"}
+          decoding={priority ? "sync" : "async"}
+          {...(priority ? ({ fetchpriority: "high" } as any) : {})}
           onLoad={() => setCargada(true)}
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
           className={`
-            h-full w-full object-cover transition-all duration-500
-            ${cargada ? "opacity-100 scale-100" : "opacity-0 scale-105"}
+            h-full w-full object-cover transition-all duration-500 ease-out
+            ${
+              cargada
+                ? "opacity-100 scale-100 blur-0"
+                : "opacity-0 scale-105 blur-sm"
+            }
             ${checked ? "scale-[1.03]" : ""}
             hover:scale-105
           `}
         />
       </div>
 
-      {/* Overlay sutil al estar seleccionado */}
+      {/* Overlay al seleccionar */}
       <div
         className={`
           absolute inset-0 pointer-events-none
