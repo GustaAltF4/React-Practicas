@@ -1,41 +1,78 @@
+import { useState, useEffect } from "react"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { ModeToggle } from "@/components/mode-toggle"
-import { Catalogo } from "@/components/catalogo"
-import { motion, AnimatePresence } from "framer-motion"
-import { ShoppingCart } from "lucide-react"
+import { motion } from "framer-motion"
 import { MyCarousel } from "@/components/Carusel"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
-import { Alerta } from "@/components/Alert"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { getCategorias, getProductos } from "@/lib/api"
+import { galeria } from "@/components/constants/galeria"
+import type { Categoria, Producto } from "@/types/database"
+import { Link } from "react-router-dom"
+import { ArrowUpRight, Sparkles } from "lucide-react"
+
+const CATEGORIAS_FALLBACK: Categoria[] = [
+  {
+    nombre: "Cola & ligas",
+    slug: "cola y ligas",
+    portada_url:
+      "https://images.pexels.com/photos/34225853/pexels-photo-34225853.jpeg?auto=compress&cs=tinysrgb&w=600",
+  },
+  {
+    nombre: "Pecho",
+    slug: "pecho",
+    portada_url:
+      "https://images.unsplash.com/photo-1686704043435-0dcd84c45477?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    nombre: "Cuerpo Completo & Conjuntos",
+    slug: "cuerpo completo",
+    portada_url:
+      "https://images.pexels.com/photos/13443111/pexels-photo-13443111.jpeg?auto=compress&cs=tinysrgb&w=600",
+  },
+  {
+    nombre: "Gargantillas",
+    slug: "gargantillas",
+    portada_url:
+      "https://images.pexels.com/photos/5065863/pexels-photo-5065863.jpeg?auto=compress&cs=tinysrgb&w=600",
+  },
+  {
+    nombre: "Hombre",
+    slug: "hombre",
+    portada_url:
+      "https://images.pexels.com/photos/11572315/pexels-photo-11572315.jpeg?auto=compress&cs=tinysrgb&w=600",
+  },
+]
 
 export function HomePage() {
-  const [seleccionados, setSeleccionados] = useState<number[]>([])
-  const [showAlerta, setShowAlerta] = useState(false)
+  const [categorias, setCategorias] = useState<Categoria[]>(CATEGORIAS_FALLBACK)
+  const [productos, setProductos] = useState<Producto[]>([])
 
-  const toggleSeleccion = (id: number, checked: boolean) => {
-    setSeleccionados((prev) =>
-      checked ? [...prev, id] : prev.filter((n) => n !== id)
-    )
-  }
-
-  const comprar = () => {
-    if (seleccionados.length === 0) {
-      setShowAlerta(true)
-      return
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [cats, prods] = await Promise.all([
+          getCategorias(false),
+          getProductos(),
+        ])
+        if (cats && cats.length > 0) setCategorias(cats)
+        if (prods && prods.length > 0) {
+          setProductos(prods)
+        } else {
+          setProductos(galeria as Producto[])
+        }
+      } catch (err) {
+        console.error("Error al cargar en HomePage:", err)
+        setProductos(galeria as Producto[])
+      }
     }
-
-    const mensaje = `Hola, quería comprar el/los producto(s) número(s): ${seleccionados.join(" - ")}`
-    const url = `https://api.whatsapp.com/send?phone=+5492613861336&text=${encodeURIComponent(mensaje)}`
-    window.open(url, "_blank")
-
-    setTimeout(() => location.reload(), 1000)
-  }
+    fetchData()
+  }, [])
 
   return (
     <SidebarProvider className="flex min-h-screen w-full italic-none">
@@ -68,7 +105,10 @@ export function HomePage() {
             </div>
 
             <div className="relative z-20 w-full flex flex-col items-center gap-4 px-4">
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
                 <h2 className="text-5xl md:text-[120px] font-black tracking-tighter leading-[0.8] uppercase text-center">
                   <span className="bg-gradient-to-r from-fuchsia-500 to-fuchsia-700 bg-clip-text text-transparent">
                     NITCH
@@ -103,7 +143,8 @@ export function HomePage() {
                   </PopoverTrigger>
                   <PopoverContent className="rounded-xl bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md">
                     <p className="text-xs font-medium text-center">
-                      Seleccioná los productos y tocá Comprar abajo a la derecha. ✨
+                      Elegí tu categoría, seleccioná los diseños que te gusten y tocá
+                      Comprar. ✨
                     </p>
                   </PopoverContent>
                 </Popover>
@@ -111,15 +152,78 @@ export function HomePage() {
             </div>
           </section>
 
-          {/* CONTENIDO (CATALOGO) */}
-          <div className="w-full px-4 md:px-10 lg:px-20 py-20">
-            <h3 className="text-4xl font-black text-center text-zinc-900 mb-12 dark:text-white uppercase tracking-tighter">
-              Nuestros <span className="text-fuchsia-600">productos</span>
-            </h3>
-            <div className="w-full mb-32">
-              <Catalogo seleccionados={seleccionados} onToggleSeleccion={toggleSeleccion} />
+          {/* SECCIÓN COLECCIONES (CARDS INTERACTIVAS REACT BITS STYLE) */}
+          <div className="w-full px-4 md:px-10 lg:px-20 py-16">
+            <div className="text-center mb-10">
+              <span className="text-xs font-black uppercase tracking-widest text-fuchsia-600">
+                Catálogo Exclusivo
+              </span>
+              <h3 className="text-3xl md:text-5xl font-black text-center text-zinc-900 dark:text-white uppercase tracking-tighter mt-1">
+                Elegí tu <span className="text-fuchsia-600">colección</span>
+              </h3>
             </div>
 
+            {/* GRILLA DE CATEGORÍAS */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-24">
+              {categorias.map((cat, idx) => {
+                const count = productos.filter(
+                  (p) => p.categoria === cat.slug
+                ).length
+
+                return (
+                  <motion.div
+                    key={cat.slug}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.08, duration: 0.4 }}
+                    whileHover={{ y: -4 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="relative group rounded-2xl overflow-hidden shadow-xl border border-zinc-200 dark:border-white/10 aspect-[4/3] md:aspect-[16/11] cursor-pointer"
+                  >
+                    <Link
+                      to={`/categoria/${cat.slug}`}
+                      className="block w-full h-full"
+                    >
+                      {/* Imagen de fondo con zoom fluido */}
+                      <img
+                        src={cat.portada_url || ""}
+                        alt={cat.nombre}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      />
+
+                      {/* Gradiente cinemático */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent transition-opacity duration-300 group-hover:via-black/50" />
+
+                      {/* Badge superior */}
+                      <div className="absolute top-4 left-4 z-10">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-black uppercase tracking-wider text-fuchsia-400 border border-fuchsia-500/30">
+                          <Sparkles className="w-3 h-3" />
+                          {count} diseños
+                        </span>
+                      </div>
+
+                      {/* Botón flecha esquina */}
+                      <div className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 group-hover:bg-fuchsia-600 group-hover:scale-110">
+                        <ArrowUpRight className="w-4 h-4" />
+                      </div>
+
+                      {/* Contenido inferior */}
+                      <div className="absolute bottom-5 left-5 right-5 z-10">
+                        <h4 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter drop-shadow-md leading-none group-hover:text-fuchsia-400 transition-colors">
+                          {cat.nombre}
+                        </h4>
+                        <p className="text-xs text-white/70 font-medium mt-1">
+                          Ver modelos y talles →
+                        </p>
+                      </div>
+                    </Link>
+                  </motion.div>
+                )
+              })}
+            </div>
+
+            {/* MÁS VENDIDOS */}
             <div className="space-y-12 pb-20">
               <h3 className="text-3xl font-black text-center text-zinc-900 dark:text-white uppercase tracking-tighter">
                 Más <span className="text-fuchsia-600">vendidos</span>
@@ -127,41 +231,7 @@ export function HomePage() {
               <MyCarousel />
             </div>
           </div>
-
-          {/* BOTÓN COMPRAR FLOTANTE GLASS MEJORADO */}
-          <div className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50">
-            <motion.div
-              whileTap={{ scale: 0.94 }}
-              animate={seleccionados.length > 0 ? { scale: [1, 1.06, 1] } : {}}
-              transition={{ duration: 0.25 }}
-            >
-              <Button
-                onClick={comprar}
-                className="h-14 md:h-16 px-6 md:px-8 rounded-2xl bg-white/80 dark:bg-zinc-950/80 backdrop-blur-2xl border border-zinc-200 dark:border-fuchsia-500/30 hover:border-fuchsia-500 hover:bg-fuchsia-600/10 transition-all flex gap-3 md:gap-4 shadow-2xl group active:scale-95 text-zinc-900 dark:text-white"
-              >
-                <div className="relative">
-                  <ShoppingCart className="w-5 h-5 md:w-6 md:h-6 text-fuchsia-600 group-hover:scale-110 transition-transform" />
-                  <AnimatePresence>
-                    {seleccionados.length > 0 && (
-                      <motion.span
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        className="absolute -top-3 -right-3 bg-fuchsia-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-black shadow-md shadow-fuchsia-600/50"
-                      >
-                        {seleccionados.length}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </div>
-                <span className="font-black uppercase tracking-widest text-xs md:text-sm">
-                  {seleccionados.length > 0 ? `Comprar (${seleccionados.length})` : "Comprar"}
-                </span>
-              </Button>
-            </motion.div>
-          </div>
         </main>
-        <Alerta open={showAlerta} onOpenChange={setShowAlerta} />
       </div>
     </SidebarProvider>
   )
