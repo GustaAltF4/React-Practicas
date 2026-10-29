@@ -7,53 +7,62 @@ import {
 
 export function AccorAnidado() {
     return (
-        <Accordion type="single" collapsible className="mt-2">
-            <AccordionItem value="sub-1">
-                <AccordionTrigger className="pl-4">¿Cómo puedo comprar un arnés?</AccordionTrigger>
-                <AccordionContent className="pl-4">
-                    <p className="italic text-pink-700">
-                        Simplemente selecciona activando la casilla en la parte inferior
-                        derecha del arnés que deseas, y luego presiona el botón de compra para contactarme.
-                        También puedes escribirme directamente mencionando el número del arnés que quieres comprar.
+        <Accordion type="single" collapsible className="w-full flex flex-col gap-1">
+            <AccordionItem value="sub-1" className="border-none">
+                <AccordionTrigger className="py-2 px-3 text-[11px] font-bold uppercase tracking-tight text-zinc-600 hover:underline hover:bg-fuchsia-500/5 rounded-[0.5rem] transition-all text-left leading-tight">
+                    ¿Cómo puedo comprar un arnés?
+                </AccordionTrigger>
+                <AccordionContent className="px-4 pt-1 pb-3">
+                    <p className="text-[12px] leading-relaxed text-fuchsia-800/80 font-medium">
+                        Selecciona activando la casilla en la parte inferior derecha del arnés y presiona el botón de compra. 
+                        También puedes escribirme con el número del modelo.
                     </p>
-
                 </AccordionContent>
             </AccordionItem>
 
-
-            <AccordionItem value="sub-2">
-                <AccordionTrigger className="pl-4">¿Cómo puedo obtener el producto o haces envíos?</AccordionTrigger>
-                <AccordionContent className="pl-4">
-                    <p className="italic text-pink-700">
-                        Hago entregas en Mendoza en puntos de encuentro, o a domicilio con un cargo extra.
-                        También realizo envíos a todo el país a través de Correo Argentino.</p>
-                </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="sub-3">
-                <AccordionTrigger className="pl-4">¿Sobre el producto?</AccordionTrigger>
-                <AccordionContent className="pl-4">
-                    <p className="italic text-pink-700">
-                        Todos los arneses los hago a mano, por lo que requiero que todos los encargos se realicen con anticipación.
-                        En general son talla única, pero puedes escribirme para preguntar sobre otros talles específicos. Además, tienen reguladores para adaptarse a más de un talle. ❤</p>
+            <AccordionItem value="sub-2" className="border-none">
+                <AccordionTrigger className="py-2 px-3 text-[11px] font-bold uppercase tracking-tight text-zinc-600 hover:underline hover:bg-fuchsia-500/5 rounded-[0.5rem] transition-all text-left leading-tight">
+                    ¿Cómo puedo obtener el producto?
+                </AccordionTrigger>
+                <AccordionContent className="px-4 pt-1 pb-3">
+                    <p className="text-[12px] leading-relaxed text-fuchsia-800/80 font-medium">
+                        Entregas en Mendoza (puntos de encuentro o domicilio con cargo extra) y envíos a todo el país por Correo Argentino.
+                    </p>
                 </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="sub-4">
-                <AccordionTrigger className="pl-4">Encargos por mayor</AccordionTrigger>
-                <AccordionContent className="pl-4">
-                    <p className="italic text-pink-700">
-                        Sí, realizo encargos por mayor, con una compra mínima de $15,000. Si el encargo es menor a este monto, los precios serán como individuales.
-                        Para encargar por mayor, es necesaria una seña del 15% del total de la compra. El encargo puede incluir cualquier tipo de arnés del catálogo, no es necesario pedir los mismos diseños.</p>
-                </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="sub-5">
-                <AccordionTrigger className="pl-4">¿Qué pasa si quiero un diseño de arnés que no está en el catálogo?</AccordionTrigger>
-                <AccordionContent className="pl-4">
-                    <p className="italic text-pink-700">
-                        Puedo hacer el tipo de arnés que quieras. Solo tienes que escribirme y enviarme la foto del diseño que quieres, y te responderé con el presupuesto.</p>
+            <AccordionItem value="sub-3" className="border-none">
+                <AccordionTrigger className="py-2 px-3 text-[11px] font-bold uppercase tracking-tight text-zinc-600 hover:underline hover:bg-fuchsia-500/5 rounded-[0.5rem] transition-all text-left leading-tight">
+                    ¿Sobre el producto?
+                </AccordionTrigger>
+                <AccordionContent className="px-4 pt-1 pb-3">
+                    <p className="text-[12px] leading-relaxed text-fuchsia-800/80 font-medium">
+                        Hechos a mano con anticipación. Talle único regulable, pero consultame por talles específicos si necesitas. ❤
+                    </p>
                 </AccordionContent>
             </AccordionItem>
 
+            <AccordionItem value="sub-4" className="border-none">
+                <AccordionTrigger className="py-2 px-3 text-[11px] font-bold uppercase tracking-tight text-zinc-600 hover:underline hover:bg-fuchsia-500/5 rounded-[0.5rem] transition-all text-left leading-tight">
+                    Encargos por mayor
+                </AccordionTrigger>
+                <AccordionContent className="px-4 pt-1 pb-3">
+                    <p className="text-[12px] leading-relaxed text-fuchsia-800/80 font-medium">
+                        Mínimo $15.000 con seña del 15%. Puedes combinar cualquier diseño del catálogo.
+                    </p>
+                </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="sub-5" className="border-none">
+                <AccordionTrigger className="py-2 px-3 text-[11px] font-bold uppercase tracking-tight text-zinc-600 hover:underline hover:bg-fuchsia-500/5 rounded-[0.5rem] transition-all text-left leading-tight">
+                    ¿Diseños personalizados?
+                </AccordionTrigger>
+                <AccordionContent className="px-4 pt-1 pb-3">
+                    <p className="text-[12px] leading-relaxed text-fuchsia-800/80 font-medium">
+                        Puedo hacer el diseño que quieras. Enviame la foto por WhatsApp y te paso el presupuesto.
+                    </p>
+                </AccordionContent>
+            </AccordionItem>
         </Accordion>
-    )
+    );
 }
