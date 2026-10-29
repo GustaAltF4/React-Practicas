@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 const Lightbox = lazy(() => import("@/components/LightboxWrapper"))
-const BATCH_SIZE = 24 // Carga al menos 24 de entrada
+const BATCH_SIZE = 40 // Lote amplio: 40 productos por carga
 
 export function CategoriaPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -73,17 +73,20 @@ export function CategoriaPage() {
     cargar()
   }, [slug])
 
-  // PRECARGA ULTRA-RÁPIDA DE LAS PRIMERAS 24 IMÁGENES EN BACKGROUND
+  // PRECARGA AGRESIVA EN MEMORIA (Lote actual + siguiente en background)
   useEffect(() => {
     if (productos.length === 0) return
-    const primeras = productos.slice(0, BATCH_SIZE)
-    primeras.forEach((p) => {
+    // Precarga las que se van a ver + 20 adicionales por adelantado
+    const hasta = Math.min(productos.length, limite + 20)
+    const imagenesAPrecargar = productos.slice(0, hasta)
+
+    imagenesAPrecargar.forEach((p) => {
       const preloadImg = new Image()
       preloadImg.src = normalizarImagenUrl(p.imagen)
     })
-  }, [productos])
+  }, [productos, limite])
 
-  // Scroll infinito
+  // Scroll infinito con margen amplio (800px) para que cargue mucho antes de llegar al fondo
   useEffect(() => {
     if (!sentinelRef.current) return
     const observer = new IntersectionObserver(
@@ -92,7 +95,7 @@ export function CategoriaPage() {
           setLimite((prev) => prev + BATCH_SIZE)
         }
       },
-      { rootMargin: "350px" }
+      { rootMargin: "800px" }
     )
     observer.observe(sentinelRef.current)
     return () => observer.disconnect()
@@ -235,7 +238,7 @@ export function CategoriaPage() {
                   key={item.id}
                   id={item.id}
                   imagen={item.imagen}
-                  priority={index < 8} // Las primeras 8 cargan con prioridad máxima
+                  priority={index < 16} // Las primeras 16 cargan con prioridad máxima inmediata
                   checked={seleccionados.includes(item.id)}
                   onToggleSeleccion={(checked) =>
                     toggleSeleccion(item.id, checked)
