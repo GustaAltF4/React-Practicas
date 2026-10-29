@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { ModeToggle } from "@/components/mode-toggle"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { MyCarousel } from "@/components/Carusel"
 import { Button } from "@/components/ui/button"
 import {
@@ -14,7 +14,7 @@ import { getCategorias, getProductos } from "@/lib/api"
 import { galeria } from "@/components/constants/galeria"
 import type { Categoria, Producto } from "@/types/database"
 import { Link } from "react-router-dom"
-import { ArrowUpRight, Sparkles, CircleHelp } from "lucide-react"
+import { ArrowUpRight, Sparkles, CircleHelp, Heart, Ruler, ShieldCheck, Truck, ArrowUp } from "lucide-react"
 import { normalizarImagenUrl } from "@/lib/utils"
 
 const CATEGORIAS_FALLBACK: Categoria[] = [
@@ -53,6 +53,19 @@ const CATEGORIAS_FALLBACK: Categoria[] = [
 export function HomePage() {
   const [categorias, setCategorias] = useState<Categoria[]>(CATEGORIAS_FALLBACK)
   const [productos, setProductos] = useState<Producto[]>([])
+  const [showScrollTop, setShowScrollTop] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400)
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -176,6 +189,51 @@ export function HomePage() {
             </div>
           </section>
 
+          {/* VALORES DE MARCA / ARTESANÍA */}
+          <div className="w-full max-w-6xl mx-auto px-4 md:px-8 -mt-6 relative z-30 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border border-zinc-200/80 dark:border-white/10 shadow-xl">
+              <div className="flex items-start gap-3">
+                <div className="h-10 w-10 shrink-0 rounded-xl bg-fuchsia-500/10 dark:bg-fuchsia-500/20 text-fuchsia-600 flex items-center justify-center">
+                  <Heart className="w-5 h-5 fill-fuchsia-500/20" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-black uppercase text-zinc-900 dark:text-zinc-100">100% Artesanal</h4>
+                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 leading-tight">Hecho a mano cuidando cada remache</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="h-10 w-10 shrink-0 rounded-xl bg-fuchsia-500/10 dark:bg-fuchsia-500/20 text-fuchsia-600 flex items-center justify-center">
+                  <Ruler className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-black uppercase text-zinc-900 dark:text-zinc-100">A tu Medida</h4>
+                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 leading-tight">Ajuste personalizado a tu silueta</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="h-10 w-10 shrink-0 rounded-xl bg-fuchsia-500/10 dark:bg-fuchsia-500/20 text-fuchsia-600 flex items-center justify-center">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-black uppercase text-zinc-900 dark:text-zinc-100">Herrajes Fuertes</h4>
+                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 leading-tight">Metales reforzados y duraderos</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="h-10 w-10 shrink-0 rounded-xl bg-fuchsia-500/10 dark:bg-fuchsia-500/20 text-fuchsia-600 flex items-center justify-center">
+                  <Truck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-black uppercase text-zinc-900 dark:text-zinc-100">Envíos a Todo el País</h4>
+                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 leading-tight">Empaque cerrado, seguro y discreto</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* SECCIÓN COLECCIONES (CARDS INTERACTIVAS REACT BITS STYLE) */}
           <div className="w-full px-4 md:px-10 lg:px-20 py-16">
             <div className="text-center mb-10">
@@ -245,13 +303,34 @@ export function HomePage() {
             </div>
 
             {/* MÁS VENDIDOS */}
-            <div className="space-y-12 pb-20">
-              <h3 className="text-3xl font-black text-center text-zinc-900 dark:text-white uppercase tracking-tighter">
-                Más <span className="text-fuchsia-600">vendidos</span>
-              </h3>
+            <div className="space-y-6 pb-20">
+              <div className="text-center">
+                <span className="text-xs font-black uppercase tracking-widest text-fuchsia-600">
+                  Selección Especial
+                </span>
+                <h3 className="text-3xl md:text-5xl font-black text-center text-zinc-900 dark:text-white uppercase tracking-tighter mt-1">
+                  Más <span className="text-fuchsia-600">vendidos</span>
+                </h3>
+              </div>
               <MyCarousel />
             </div>
           </div>
+
+          {/* BOTÓN FLOTANTE VOLVER ARRIBA */}
+          <AnimatePresence>
+            {showScrollTop && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                onClick={scrollToTop}
+                aria-label="Volver arriba"
+                className="fixed bottom-6 left-6 z-40 h-11 w-11 rounded-2xl bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-zinc-200 dark:border-white/10 text-zinc-700 dark:text-zinc-200 shadow-xl hover:bg-fuchsia-600 hover:text-white dark:hover:bg-fuchsia-600 dark:hover:text-white flex items-center justify-center transition-all active:scale-90"
+              >
+                <ArrowUp className="w-5 h-5" />
+              </motion.button>
+            )}
+          </AnimatePresence>
         </main>
       </div>
     </SidebarProvider>
