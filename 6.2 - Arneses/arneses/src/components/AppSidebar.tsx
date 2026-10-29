@@ -274,16 +274,16 @@ export function AppSidebar() {
 
       {/* BLOQUE FINAL */}
       <div className="p-3 border-t border-zinc-200/50 dark:border-white/5 space-y-3">
-        <div className="flex justify-center opacity-80 dark:opacity-60 transition-opacity hover:opacity-100">
+        <div className="flex justify-center opacity-90 dark:opacity-80 transition-opacity hover:opacity-100 px-2">
           <img
             src={normalizarImagenUrl("/img/icons/rosa2.webp")}
             alt="rosa white"
-            className="w-16 h-auto dark:hidden"
+            className="w-full h-auto object-contain dark:hidden"
           />
           <img
             src={normalizarImagenUrl("/img/icons/rosa1.webp")}
             alt="rosa dark"
-            className="w-16 h-auto hidden dark:block"
+            className="w-full h-auto object-contain hidden dark:block"
           />
         </div>
 
