@@ -15,6 +15,7 @@ import { galeria } from "@/components/constants/galeria"
 import type { Categoria, Producto } from "@/types/database"
 import { Link } from "react-router-dom"
 import { ArrowUpRight, Sparkles } from "lucide-react"
+import { normalizarImagenUrl } from "@/lib/utils"
 
 const CATEGORIAS_FALLBACK: Categoria[] = [
   {
@@ -163,8 +164,8 @@ export function HomePage() {
               </h3>
             </div>
 
-            {/* GRILLA DE CATEGORÍAS */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-24">
+            {/* GRILLA DE CATEGORÍAS (SIN GRADIENTES, LETRAS DINÁMICAS LIGHT/DARK) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-24">
               {categorias.map((cat, idx) => {
                 const count = productos.filter(
                   (p) => p.categoria === cat.slug
@@ -173,49 +174,46 @@ export function HomePage() {
                 return (
                   <motion.div
                     key={cat.slug}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.08, duration: 0.4 }}
+                    transition={{ delay: idx * 0.06, duration: 0.35 }}
                     whileHover={{ y: -4 }}
                     whileTap={{ scale: 0.98 }}
-                    className="relative group rounded-2xl overflow-hidden shadow-xl border border-zinc-200 dark:border-white/10 aspect-[4/3] md:aspect-[16/11] cursor-pointer"
+                    className="group rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 transition-all flex flex-col"
                   >
                     <Link
                       to={`/categoria/${cat.slug}`}
-                      className="block w-full h-full"
+                      className="block w-full h-full flex flex-col"
                     >
-                      {/* Imagen de fondo con zoom fluido */}
-                      <img
-                        src={cat.portada_url || ""}
-                        alt={cat.nombre}
-                        loading="lazy"
-                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                      />
-
-                      {/* Gradiente cinemático */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent transition-opacity duration-300 group-hover:via-black/50" />
-
-                      {/* Badge superior */}
-                      <div className="absolute top-4 left-4 z-10">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-black uppercase tracking-wider text-fuchsia-400 border border-fuchsia-500/30">
-                          <Sparkles className="w-3 h-3" />
-                          {count} diseños
-                        </span>
+                      {/* Imagen limpia sin ningún gradiente que la opaque */}
+                      <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-950">
+                        <img
+                          src={normalizarImagenUrl(cat.portada_url)}
+                          alt={cat.nombre}
+                          loading="lazy"
+                          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                        />
+                        <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 dark:bg-black/80 backdrop-blur-md border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-white flex items-center justify-center shadow-sm group-hover:bg-fuchsia-600 group-hover:text-white transition-all">
+                          <ArrowUpRight className="w-4 h-4" />
+                        </div>
                       </div>
 
-                      {/* Botón flecha esquina */}
-                      <div className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 group-hover:bg-fuchsia-600 group-hover:scale-110">
-                        <ArrowUpRight className="w-4 h-4" />
-                      </div>
-
-                      {/* Contenido inferior */}
-                      <div className="absolute bottom-5 left-5 right-5 z-10">
-                        <h4 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter drop-shadow-md leading-none group-hover:text-fuchsia-400 transition-colors">
-                          {cat.nombre}
-                        </h4>
-                        <p className="text-xs text-white/70 font-medium mt-1">
-                          Ver modelos y talles →
-                        </p>
+                      {/* Cuerpo de la card con textos que responden al tema */}
+                      <div className="p-4 flex flex-col justify-between flex-1 bg-white dark:bg-zinc-900/90 border-t border-zinc-100 dark:border-zinc-800">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400 border border-fuchsia-500/20">
+                            <Sparkles className="w-3 h-3" />
+                            {count} diseños
+                          </span>
+                        </div>
+                        <div className="mt-2">
+                          <h4 className="text-xl md:text-2xl font-black uppercase tracking-tight text-zinc-900 dark:text-zinc-100 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors leading-tight">
+                            {cat.nombre}
+                          </h4>
+                          <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium mt-1">
+                            Ver colección completa →
+                          </p>
+                        </div>
                       </div>
                     </Link>
                   </motion.div>

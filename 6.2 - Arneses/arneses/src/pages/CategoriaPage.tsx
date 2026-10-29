@@ -179,27 +179,31 @@ export function CategoriaPage() {
         </div>
       </header>
 
-      {/* BANNER REFINADO */}
-      <div className="relative w-full h-36 md:h-52 overflow-hidden bg-zinc-950">
-        {categoriaActual?.portada_url && (
-          <img
-            src={normalizarImagenUrl(categoriaActual.portada_url)}
-            alt={categoriaActual.nombre}
-            className="w-full h-full object-cover opacity-75 dark:opacity-60 scale-105"
-          />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-zinc-50 dark:from-black via-black/40 to-transparent" />
-        <div className="absolute bottom-4 left-4 md:left-8 right-4 flex justify-between items-end">
-          <div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-fuchsia-400 bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-fuchsia-500/30">
-              {productos.length} diseños exclusivos
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter drop-shadow-lg mt-1">
-              {categoriaActual?.nombre || slug}
-            </h2>
+          {/* BANNER LIMPIO SIN GRADIENTES OSCUROS */}
+          <div className="max-w-7xl mx-auto px-4 md:px-8 pt-4">
+            <div className="relative w-full h-40 md:h-60 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 shadow-sm">
+              {categoriaActual?.portada_url && (
+                <img
+                  src={normalizarImagenUrl(categoriaActual.portada_url)}
+                  alt={categoriaActual.nombre}
+                  className="w-full h-full object-cover"
+                />
+              )}
+            </div>
+
+            {/* TÍTULO Y DETALLES QUE RESPONDEN AL MODO OSCURO Y CLARO */}
+            <div className="pt-5 pb-2 flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-zinc-200 dark:border-zinc-800">
+              <div>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400 border border-fuchsia-500/20">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  {productos.length} diseños disponibles
+                </span>
+                <h2 className="text-3xl md:text-5xl font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-tighter mt-2 leading-none">
+                  {categoriaActual?.nombre || slug}
+                </h2>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
       {/* CONTENIDO PRINCIPAL */}
       <main className="max-w-7xl mx-auto px-4 md:px-8 pt-6">

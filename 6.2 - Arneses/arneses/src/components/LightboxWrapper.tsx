@@ -4,7 +4,20 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
-// Exportamos un componente que ya tiene el plugin puesto
 export default function SafeLightbox(props: any) {
-  return <Lightbox plugins={[Thumbnails]} {...props} />;
+  return (
+    <Lightbox
+      plugins={[Thumbnails]}
+      styles={{
+        container: {
+          backgroundColor: "rgba(0, 0, 0, 0.92)",
+          backdropFilter: "blur(12px)",
+        },
+        thumbnailsContainer: {
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+        },
+      }}
+      {...props}
+    />
+  );
 }

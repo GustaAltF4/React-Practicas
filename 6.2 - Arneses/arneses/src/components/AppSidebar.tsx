@@ -96,12 +96,12 @@ export function AppSidebar() {
                       </span>
                     </SidebarMenuButton>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px] rounded-[0.5rem] border-fuchsia-500/20 animate-in fade-in zoom-in duration-300">
+                  <DialogContent className="sm:max-w-[425px] rounded-2xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-2xl animate-in fade-in zoom-in duration-300">
                     <DialogHeader>
-                      <DialogTitle className="text-2xl font-black uppercase tracking-tighter">
+                      <DialogTitle className="text-2xl font-black uppercase tracking-tighter text-zinc-900 dark:text-white">
                         Buscar Arnés
                       </DialogTitle>
-                      <DialogDescription>
+                      <DialogDescription className="text-zinc-500 dark:text-zinc-400">
                         Ingresa el modelo para previsualizar.
                       </DialogDescription>
                     </DialogHeader>
@@ -110,10 +110,10 @@ export function AppSidebar() {
                         placeholder="Ej: 123..."
                         value={numeroprod}
                         onChange={(e) => setNumeroprod(e.target.value)}
-                        className="h-12 rounded-[0.5rem] border-fuchsia-500/20 focus-visible:ring-fuchsia-500"
+                        className="h-12 rounded-xl bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 focus-visible:ring-fuchsia-500"
                         type="number"
                       />
-                      <div className="flex flex-col justify-center items-center bg-zinc-50 dark:bg-zinc-900 rounded-[0.5rem] overflow-hidden">
+                      <div className="flex flex-col justify-center items-center bg-zinc-100 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden">
                         {galeria
                           .filter((img) => String(img.id) === String(numeroprod))
                           .map((img) => {
