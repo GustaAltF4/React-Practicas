@@ -6,6 +6,8 @@ import { galeria } from "@/components/constants/galeria"
 import type { Categoria, Producto } from "@/types/database"
 import { useCart } from "@/context/CartContext"
 import { CardIMG } from "@/components/Card-img"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/AppSidebar"
 import { ModeToggle } from "@/components/mode-toggle"
 import { ArrowLeft, Sparkles, ChevronDown, Check } from "lucide-react"
 import { normalizarImagenUrl } from "@/lib/utils"
@@ -111,22 +113,29 @@ export function CategoriaPage() {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 15 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -15 }}
-      transition={{ duration: 0.25, ease: "easeInOut" }}
-      className="min-h-screen bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100 pb-32 transition-colors duration-300"
-    >
-      {/* HEADER STICKY CON SELECTOR DROPDOWN ELEGANTE (SIN SCROLL HORIZONTAL) */}
-      <header className="sticky top-0 z-40 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-zinc-200 dark:border-white/10 px-4 md:px-8 py-2.5 flex items-center justify-between gap-2">
-        <button
-          onClick={() => navigate("/")}
-          className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors p-1.5 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900"
+    <SidebarProvider className="flex min-h-screen w-full italic-none">
+      <AppSidebar />
+
+      <div className="flex-1 flex flex-col min-w-0 bg-zinc-50 dark:bg-black transition-colors duration-300">
+        <motion.div
+          initial={{ opacity: 0, x: 15 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -15 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          className="min-h-screen text-zinc-900 dark:text-zinc-100 pb-32"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="hidden sm:inline">Colecciones</span>
-        </button>
+          {/* HEADER STICKY CON CONTROLES ACCESIBLES */}
+          <header className="sticky top-0 z-40 bg-white/80 dark:bg-black/85 backdrop-blur-xl border-b border-zinc-200/60 dark:border-white/10 px-4 md:px-8 py-2.5 flex items-center justify-between gap-2 shadow-sm">
+            <div className="flex items-center gap-2">
+              <SidebarTrigger className="h-9 w-9 bg-zinc-100 dark:bg-white/10 hover:bg-zinc-200 dark:hover:bg-white/20 border border-zinc-300 dark:border-white/20 shadow-sm rounded-xl transition-all active:scale-90 text-zinc-900 dark:text-white" />
+              <button
+                onClick={() => navigate("/")}
+                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors p-1.5 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span className="hidden sm:inline">Colecciones</span>
+              </button>
+            </div>
 
         {/* SELECTOR DROPDOWN ELEGANTE PARA CAMBIAR DE COLECCIÓN */}
         <DropdownMenu>
@@ -265,6 +274,8 @@ export function CategoriaPage() {
           />
         )}
       </Suspense>
-    </motion.div>
+        </motion.div>
+      </div>
+    </SidebarProvider>
   )
 }

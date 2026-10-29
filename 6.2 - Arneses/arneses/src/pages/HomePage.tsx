@@ -80,15 +80,15 @@ export function HomePage() {
 
       <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-black transition-colors duration-300">
         <main className="relative w-full">
-          {/* HEADER */}
-          <header className="absolute top-0 w-full z-40 p-4 md:p-8 flex items-center justify-between pointer-events-none">
-            <div className="pointer-events-auto">
-              <SidebarTrigger className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl" />
+          {/* HEADER STICKY GLASSMORPHIC */}
+          <header className="sticky top-0 w-full z-40 px-4 md:px-8 py-3 flex items-center justify-between bg-white/75 dark:bg-black/80 backdrop-blur-xl border-b border-zinc-200/60 dark:border-white/10 transition-colors shadow-sm">
+            <div className="flex items-center gap-2">
+              <SidebarTrigger className="h-9 w-9 bg-zinc-100 dark:bg-white/10 hover:bg-zinc-200 dark:hover:bg-white/20 border border-zinc-300 dark:border-white/20 shadow-sm rounded-xl transition-all active:scale-90 text-zinc-900 dark:text-white" />
             </div>
-            <h1 className="text-2xl md:text-5xl font-black tracking-widest bg-gradient-to-r from-fuchsia-600 to-black dark:to-white bg-clip-text text-transparent uppercase text-center flex-1">
+            <h1 className="text-sm sm:text-base md:text-2xl font-black tracking-widest bg-gradient-to-r from-fuchsia-600 via-zinc-900 to-zinc-900 dark:via-white dark:to-white bg-clip-text text-transparent uppercase text-center flex-1 truncate px-2">
               CATALOGO ARNESES
             </h1>
-            <div className="pointer-events-auto">
+            <div className="flex items-center gap-2">
               <ModeToggle />
             </div>
           </header>
