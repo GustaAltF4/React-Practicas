@@ -64,11 +64,22 @@ export async function saveCategoria(categoria: Partial<Categoria>): Promise<Cate
     if (error) throw error
     return data
   } else {
-    // Excluimos explícitamente el campo 'id' para que PostgreSQL genere el autoincremental
-    const { id, ...dataToInsert } = categoria
+    // Si la tabla no tiene autoincrement/serial configurado en Postgres,
+    // calculamos el siguiente ID disponible para no violar not-null constraint
+    let idToInsert = categoria.id
+    if (!idToInsert) {
+      const { data: maxRow } = await supabase
+        .from('arneses_categorias')
+        .select('id')
+        .order('id', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+      idToInsert = (maxRow?.id ? Number(maxRow.id) : 0) + 1
+    }
+
     const { data, error } = await supabase
       .from('arneses_categorias')
-      .insert([dataToInsert])
+      .insert([{ ...categoria, id: idToInsert }])
       .select()
       .single()
 
@@ -134,11 +145,22 @@ export async function saveProducto(producto: Partial<Producto>): Promise<Product
     if (error) throw error
     return data
   } else {
-    // Excluimos explícitamente el campo 'id' para que la base genere el próximo autoincrement
-    const { id, ...dataToInsert } = producto
+    // Si la tabla no tiene autoincrement/serial configurado en Postgres,
+    // calculamos el siguiente ID disponible para evitar violar not-null constraint
+    let idToInsert = producto.id
+    if (!idToInsert) {
+      const { data: maxRow } = await supabase
+        .from('arneses_productos')
+        .select('id')
+        .order('id', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+      idToInsert = (maxRow?.id ? Number(maxRow.id) : 0) + 1
+    }
+
     const { data, error } = await supabase
       .from('arneses_productos')
-      .insert([dataToInsert])
+      .insert([{ ...producto, id: idToInsert }])
       .select()
       .single()
 
