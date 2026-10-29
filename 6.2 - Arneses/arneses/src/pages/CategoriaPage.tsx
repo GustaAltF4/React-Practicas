@@ -8,6 +8,7 @@ import { useCart } from "@/context/CartContext"
 import { CardIMG } from "@/components/Card-img"
 import { ModeToggle } from "@/components/mode-toggle"
 import { ArrowLeft, Sparkles } from "lucide-react"
+import { normalizarImagenUrl } from "@/lib/utils"
 
 const Lightbox = lazy(() => import("@/components/LightboxWrapper"))
 const BATCH_SIZE = 12
@@ -86,7 +87,7 @@ export function CategoriaPage() {
   const hayMas = limite < productos.length
 
   const handleImageClick = (id: number) => {
-    const slides = productos.map((img) => ({ src: img.imagen }))
+    const slides = productos.map((img) => ({ src: normalizarImagenUrl(img.imagen) }))
     const idx = productos.findIndex((img) => img.id === id)
     setLightboxImages(slides)
     setLightboxIndex(idx >= 0 ? idx : 0)
@@ -129,7 +130,7 @@ export function CategoriaPage() {
       <div className="relative w-full h-36 md:h-56 overflow-hidden bg-zinc-900">
         {categoriaActual?.portada_url && (
           <img
-            src={categoriaActual.portada_url}
+            src={normalizarImagenUrl(categoriaActual.portada_url)}
             alt={categoriaActual.nombre}
             className="w-full h-full object-cover opacity-75 dark:opacity-60 scale-105"
           />

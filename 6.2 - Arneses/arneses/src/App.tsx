@@ -5,7 +5,7 @@ import { CategoriaPage } from "@/pages/CategoriaPage"
 import { AdminPage } from "@/pages/AdminPage"
 import { ProtectedRoute } from "@/components/admin/ProtectedRoute"
 import { CartProvider } from "@/context/CartContext"
-import { FloatingCartButton } from "@/components/FloatingCartButton"
+import { CartDrawer } from "@/components/CartDrawer"
 import { AnimatePresence } from "framer-motion"
 
 export default function App() {
@@ -29,8 +29,8 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AnimatePresence>
-        {/* El carrito flotante persiste en todas las páginas excepto en el admin */}
-        {!location.pathname.startsWith("/admin") && <FloatingCartButton />}
+        {/* El drawer del carrito flotante persiste en todas las páginas excepto en el admin */}
+        {!location.pathname.startsWith("/admin") && <CartDrawer />}
       </CartProvider>
     </ThemeProvider>
   )

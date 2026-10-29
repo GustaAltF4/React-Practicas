@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/accordion"
 import { CardIMG } from "@/components/Card-img"
 import { ChevronDown, Sparkles } from "lucide-react"
+import { normalizarImagenUrl } from "@/lib/utils"
 
 const Lightbox = lazy(() => import("@/components/LightboxWrapper"))
 
@@ -111,7 +112,7 @@ export function Catalogo({ seleccionados, onToggleSeleccion }: CatalogoProps) {
 
   const handleImageClick = (categoriaSlug: string, id: number) => {
     const filtradas = productos.filter((img) => img.categoria === categoriaSlug)
-    const slides = filtradas.map((img) => ({ src: img.imagen }))
+    const slides = filtradas.map((img) => ({ src: normalizarImagenUrl(img.imagen) }))
     const idx = filtradas.findIndex((img) => img.id === id)
 
     setLightboxImages(slides)
@@ -155,7 +156,7 @@ export function Catalogo({ seleccionados, onToggleSeleccion }: CatalogoProps) {
               <AccordionTrigger className="relative h-32 md:h-52 rounded-2xl overflow-hidden p-0 hover:no-underline group [&>svg]:hidden shadow-lg border border-zinc-200/50 dark:border-white/5 active:scale-[0.99] transition-all">
                 {categoria.portada_url && (
                   <img
-                    src={categoria.portada_url}
+                    src={normalizarImagenUrl(categoria.portada_url)}
                     alt={categoria.nombre}
                     loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover opacity-80 dark:opacity-65 transition-transform duration-700 ease-out group-hover:scale-105"

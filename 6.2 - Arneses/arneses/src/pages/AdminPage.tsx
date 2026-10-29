@@ -34,6 +34,7 @@ import {
 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { ModeToggle } from "@/components/mode-toggle"
+import { normalizarImagenUrl } from "@/lib/utils"
 
 export function AdminPage() {
   const [tab, setTab] = useState<"productos" | "categorias">("productos")
@@ -432,7 +433,7 @@ export function AdminPage() {
 
                     <div className="aspect-[2/3] w-full bg-zinc-100 dark:bg-zinc-950 overflow-hidden">
                       <img
-                        src={p.imagen}
+                        src={normalizarImagenUrl(p.imagen)}
                         alt={`Producto ${p.id}`}
                         loading="lazy"
                         className="w-full h-full object-cover"
@@ -505,7 +506,7 @@ export function AdminPage() {
                   <div className="relative h-28 bg-zinc-100 dark:bg-zinc-950 overflow-hidden">
                     {c.portada_url ? (
                       <img
-                        src={c.portada_url}
+                        src={normalizarImagenUrl(c.portada_url)}
                         alt={c.nombre}
                         className="w-full h-full object-cover opacity-80 dark:opacity-70"
                       />

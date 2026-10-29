@@ -1,6 +1,7 @@
 import { memo, useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { motion } from "framer-motion"
+import { normalizarImagenUrl } from "@/lib/utils"
 
 interface ImageCardProps {
   id: number
@@ -74,7 +75,7 @@ export const CardIMG = memo(function CardIMG({
         onClick={onClick}
       >
         <img
-          src={imagen}
+          src={normalizarImagenUrl(imagen)}
           alt={`Arnés Modelo ${id}`}
           loading="lazy"
           decoding="async"

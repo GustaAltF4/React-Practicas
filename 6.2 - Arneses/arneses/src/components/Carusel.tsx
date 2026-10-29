@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
+import { normalizarImagenUrl } from "@/lib/utils"
 
 const PRODUCTOS_FALLBACK = [62, 123, 17, 37, 55]
 
@@ -64,7 +65,7 @@ export function MyCarousel() {
 
                 {/* IMAGEN */}
                 <img
-                  src={item.imagen}
+                  src={normalizarImagenUrl(item.imagen)}
                   alt={`Producto ${item.id}`}
                   className="object-cover h-full w-full rounded-[0.5rem]"
                 />
